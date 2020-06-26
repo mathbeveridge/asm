@@ -157,26 +157,27 @@ from stackset import stack_set_stats as stats
 # invert reflect is stackset 6, 26, 158, 1332
 
 nn = 4
-#stacks = build.build_stacks(nn)
-stacks = build.build_inverted_stacks(nn)
+stacks = build.build_stacks(nn)
+#stacks = build.build_inverted_stacks(nn)
 #stacks0 = stats.one_one_per_col_fixed(stacks,nn)
-stacks0 = stats.one_one_per_row(stacks, nn)
-#good_stacks = stats.one_one_per_diag(stacks0,nn)
+#stacks0 = stats.one_one_per_row(stacks, nn)
+good_stacks = stats.one_one_per_diag(stacks,nn)
 #good_stacks = stats.one_one_per_row(stacks0,nn)
 #good_stacks = stats.cols_weak_decreasing(stacks,nn)
 #good_stacks = stats.reflect_is_sst(stacks,nn)
-good_stacks = stacks0
+#good_stacks = stacks
 #good_stacks = stats.invert_is_sst(stacks, nn)
 
 
-#for idx,s in enumerate(good_stacks):
-#    print(idx+1)
-#    for x in s:
+
+for idx,s in enumerate(good_stacks):
+    print(idx+1)
+    for x in s:
         #temp = []
         #temp = [xx for xx in reversed(x)]
         #print(temp)
-#        print(x)
-#    print('######')
+        print(x)
+    print('######')
 print(len(good_stacks))
 
 

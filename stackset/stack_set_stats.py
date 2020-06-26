@@ -181,8 +181,8 @@ def one_one_per_col_fixed(stacks,n):
                 if stack[j][i] == 1:
                         num_ones += 1
             #### CHANGE BACK!
-            if num_ones > 1:
-            #if not num_ones == 1:
+            #if num_ones > 1:
+            if not num_ones == 1:
                 if stack in good_stacks:
                     good_stacks.remove(stack)
                     break
