@@ -23,8 +23,8 @@ def cols_weak_increasing(stacks,n):
                         good_stacks.remove(stack)
     return good_stacks
 
-def rows_weak_decreasing(n):
-    stacks = build.build_stacks(n)
+def rows_weak_decreasing(stacks, n):
+    #stacks = build.build_stacks(n)
     good_stacks = stacks.copy()
     for stack in stacks:
         for i in range(n):
@@ -59,8 +59,8 @@ def diag_weak_decreasing(stacks, n):
     return good_stacks
 
 
-def semidiag_weak_increasing(n):
-    stacks = build.build_stacks(n)
+def semidiag_weak_increasing(stacks,n):
+    #stacks = build.build_stacks(n)
     good_stacks = stacks.copy()
     for stack in stacks:
         print(stack)
@@ -86,8 +86,8 @@ def semidiag_weak_increasing(n):
         print('-----')
     return good_stacks
 
-def semidiag_weak_decreasing(n):
-    stacks = build.build_stacks(n)
+def semidiag_weak_decreasing(stacks,n):
+    #stacks = build.build_stacks(n)
     good_stacks = stacks.copy()
     for stack in stacks:
         print(stack)
@@ -112,36 +112,10 @@ def semidiag_weak_decreasing(n):
         print('-----')
     return good_stacks
 
-def semidiag_weak_decreasing_old(n):
-    stacks = build.build_stacks(n)
-    good_stacks = stacks.copy()
-    for stack in stacks:
-        print(stack)
-        #start on col 1
-        for i in range(1,n):
-            for j in range(int(i/2)):
-                print(n,i,j)
-                print('\t', j,j, '<', j-1, j+1)
-                if stack[i-j][j] < stack[i-j-1][j+1]:
-                    if stack in good_stacks:
-                        good_stacks.remove(stack)
-                        break
-                print('***')
-        print('####')
-        # start on row n
-        for i in range(n):
-            for j in range(int((n-1-i)/2)):
-                print(n,i,j)
-                if stack[n-1-j][j] < stack[n-1-j-1][j+1]:
-                    if stack in good_stacks:
-                        good_stacks.remove(stack)
-                        break
-        print('-----')
-    return good_stacks
 
 
-def rows_weak_increasing(n):
-    stacks = build.build_stacks(n)
+def rows_weak_increasing(stacks,n):
+    #stacks = build.build_stacks(n)
     good_stacks = stacks.copy()
     for stack in stacks:
         for i in range(n):
@@ -153,21 +127,8 @@ def rows_weak_increasing(n):
     return good_stacks
 
 
-def one_one_per_col_broken(stacks, n):
-    #stacks = build.build_stacks(n)
-    good_stacks = stacks.copy()
-    for stack in stacks:
-        for i in range(n):
-            num_ones = 0
-            for j in range(i+1):
-                if stack[i][j] == 1:
-                        num_ones += 1
-            if num_ones > 1:
-                if stack in good_stacks:
-                    good_stacks.remove(stack)
-    return good_stacks
-
-def one_one_per_col_fixed(stacks,n):
+# at most one per column
+def one_one_per_col(stacks,n):
     print("starting");
     #stacks = build.build_stacks(n)
     #print("built stacks for", n, len(stacks));
@@ -181,16 +142,16 @@ def one_one_per_col_fixed(stacks,n):
                 if stack[j][i] == 1:
                         num_ones += 1
             #### CHANGE BACK!
-            #if num_ones > 1:
-            if not num_ones == 1:
+            if num_ones > 1:
+            #if not num_ones == 1:
                 if stack in good_stacks:
                     good_stacks.remove(stack)
                     break
     return good_stacks
 
-def max_ones_per_col(n,k):
+def max_ones_per_col(stacks,  n,k):
     print("starting");
-    stacks = build.build_stacks(n)
+    #stacks = build.build_stacks(n)
     print("built stacks for", n, len(stacks));
     good_stacks = stacks.copy()
     for index,stack in enumerate(stacks):
@@ -208,6 +169,7 @@ def max_ones_per_col(n,k):
     return good_stacks
 
 
+# at most one per row
 def one_one_per_row(stacks,n):
     good_stacks = stacks.copy()
     for index,stack in enumerate(stacks):
@@ -221,8 +183,10 @@ def one_one_per_row(stacks,n):
                 break
     return good_stacks
 
+# at most one per row and column
+# uses one_one_per_col and one_one_per_row
 def one_one_per_row_and_col(stacks,n):
-    temp_stacks = one_one_per_col_fixed(stacks,n)
+    temp_stacks = one_one_per_col(stacks,n)
     good_stacks = temp_stacks.copy()
     for index,stack in enumerate(temp_stacks):
         if index % 1000 == 0:
@@ -233,6 +197,8 @@ def one_one_per_row_and_col(stacks,n):
                 break
     return good_stacks
 
+# at most one per diagonal
+# transforms the stack and uses one_one_per_col
 def one_one_per_diag(stacks, n):
     flip_stacks = []
 
@@ -243,7 +209,7 @@ def one_one_per_diag(stacks, n):
             temp.append([x for x in reversed(s)])
         flip_stacks.append(temp)
 
-    stack_list = one_one_per_col_fixed(flip_stacks,n)
+    stack_list = one_one_per_col(flip_stacks,n)
 
     # turn columns back into diagonals
     ret_val = []
@@ -310,18 +276,18 @@ def one_one_per_semidiag(stacks, n):
             print('-----')
     return good_stacks
 
-def count_by_diagonal(n):
+def count_by_diagonal(stacks,n):
     num_ones_list = [0] * (n+1)
-    stacks = build.build_stacks(n)
+    #stacks = build.build_stacks(n)
     for stack in stacks:
         num_ones = count_ones_in_diag(stack, n)
         num_ones_list[num_ones] = num_ones_list[num_ones] +1
     return num_ones_list
 
 
-def count_by_first_col(n):
+def count_by_first_col(stacks, n):
     num_ones_list = [0] * (n+1)
-    stacks = build.build_stacks(n)
+    #stacks = build.build_stacks(n)
     for stack in stacks:
         #num_ones = sum(stack[i][0] for i in range(n))
         num_ones = count_ones_in_col(stack, 0)
@@ -329,9 +295,9 @@ def count_by_first_col(n):
     return num_ones_list
 
 
-def count_by_last_row(n):
+def count_by_last_row(stacks,n):
     num_ones_list = [0] * (n+1)
-    stacks = build.build_stacks(n)
+    #stacks = build.build_stacks(n)
     for stack in stacks:
         num_ones = sum(stack[n-1][i] for i in range(n))
         num_ones_list[num_ones] = num_ones_list[num_ones] +1
