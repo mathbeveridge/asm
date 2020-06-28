@@ -331,6 +331,19 @@ def sort_by_col(stack_list, col_num):
     return my_list
 
 
+def has_num_ones_in_first_col(stacks, num_ones):
+    good_stacks = []
+    for stack in stacks:
+        count = 0
+        for x in stack:
+            count = count + x[0]
+        if count == num_ones:
+            good_stacks.append(stack)
+
+    return good_stacks
+
+
+
 ######
 
 def transform_stacks(n):

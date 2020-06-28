@@ -41,10 +41,13 @@ class GogPyramid:
                         pyr[k][i][j]=1
         return pyr
 
+    # pushes cubes down columns as far as possible.
+    # this leaves home empty boxes, violating gravity
+    # inspired by Ian's permutation pyramids
     def explode_columns(self):
         layers = self.get_layers_z()
         for idx,layer in enumerate(layers):
-            #print('layer', idx, layer)
+            print('layer', idx, layer)
             layer_size = len(layer)
             num_ones = [0] * layer_size
             for row in layer:
@@ -52,16 +55,21 @@ class GogPyramid:
                     #print('num_ones', num_ones, 'x', x)
                     num_ones[idx2] = num_ones[idx2] + x
 
-            #print('num ones final', num_ones)
+            print('num ones final', num_ones)
 
             for idx3 in range(layer_size):
                 col_size = layer_size - idx3
-                for idx4 in range(idx3, col_size):
+                print('====================')
+                for idx4 in range(idx3, layer_size):
                     #print('idx4, col_size', idx4, col_size)
-                    #print('idx, idx3, idx4', idx, idx3, idx4)
-                    if idx4 < col_size - num_ones[idx3]:
+                    print('k i j =', idx, idx4, idx3, 'col_size', col_size)
+                    start_idx = col_size - num_ones[idx3] + idx3
+                    print('\tcomparing', idx4, start_idx)
+                    if idx4 < start_idx:
+                        print('\tsetting to', 0)
                         self.pyramid[idx][idx4][idx3] = 0
                     else:
+                        print('\tsetting to', 1)
                         self.pyramid[idx][idx4][idx3] = 1
 
 

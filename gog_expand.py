@@ -20,24 +20,26 @@ import triangle.gog_pyramid as gog_pyramid
 
 hm = dict()
 
-for g in gog_magog.gog3:
+for g in gog_magog.gog2:
+#for g in [ gog_magog.gog2[0],]:
 
     pyr = gog_pyramid.GogPyramid(g)
-    #pyr.print_gog()
-    #pyr.print_layers_z()
+    pyr.print_gog()
+    pyr.print_layers_z()
 
-    print(pyr.gog)
+    #print(pyr.gog)
     #pyr.explode_columns()
 
-    #print('after')
+    print('>>>>>>>>>>>>>>>>>after<<<<<<<<<<<<<<')
+    pyr.print_gog()
 
-    #pyr.print_layers_z()
+    pyr.print_layers_z()
 
     layers = pyr.get_layers_z();
 
     st = str(layers[0])
 
-    print(st)
+    #print(st)
 
     if not st in hm:
         hm[st] = 0
@@ -45,7 +47,7 @@ for g in gog_magog.gog3:
     hm[st] = hm[st] + 1
 
     print('*********')
-
+    print(len(hm))
 
 for key in hm:
     print(key, hm[key])

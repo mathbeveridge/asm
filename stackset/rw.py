@@ -1,5 +1,6 @@
 import random as random
 
+# curious about whether we can  generate gogs
 
 def step(i,j,k):
     r = random.random()

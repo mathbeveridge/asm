@@ -1,18 +1,22 @@
-from asm import asm
+from asm import build_asm
 from stackset import build_stack_sets as build
 
-psm_list = asm.getPartialSums(4)
-pst_list = asm.getPartialSumTriangles(4)
+psm_list = build_asm.getPartialSums(4)
+pst_list = build_asm.getPartialSumTriangles(4)
 
 sst_list = build.build_stacks(3)
 
 #print('missing from SST list')
 
-for pst in psm_list:
+#for pst in psm_list:
+for asm in build_asm.asm4:
     #if pst not in sst_list:
-    for x in pst:
-        print(x)
-    print('-----')
+    #for x in pst:
+    #    print(x)
+    #print('-----')
+    if not build_asm.isPermutationMatrix(asm):
+        print(build_asm.toLaTeX(asm))
+
 
 #print('missing from PST list')
 
