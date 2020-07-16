@@ -1,6 +1,5 @@
 from stackset import build_stack_sets as build
 
-
 def cols_weak_decreasing(stacks, n):
     #stacks = build.build_stacks(n)
     good_stacks = stacks.copy()
@@ -183,6 +182,48 @@ def one_one_per_row(stacks,n):
                 break
     return good_stacks
 
+# at least one 1 in row k
+def one_in_row(stacks, row_num, n):
+    good_stacks = []
+    for stack in stacks:
+        if sum(stack[row_num]) > 0:
+            good_stacks.append(stack)
+    return good_stacks
+
+# zero 1's in row k
+def none_in_row(stacks, row_num, n):
+    good_stacks = []
+    for stack in stacks:
+        if sum(stack[row_num]) == 0:
+            good_stacks.append(stack)
+    return good_stacks
+
+def at_least_one_more_in_row(stacks, row_num, n):
+    good_stacks = []
+    for stack in stacks:
+        if row_num == 0:
+            prev_row_sum = 0
+        else:
+            prev_row_sum = sum(stack[row_num-1])
+        row_sum = sum(stack[row_num])
+        if row_sum > prev_row_sum:
+            good_stacks.append(stack)
+    return good_stacks
+
+
+def at_least_one_more_in_row_after_col(stacks, row_num, col_num, n):
+    good_stacks = []
+    for stack in stacks:
+        if row_num == 0:
+            prev_partial_row = [0,]
+        else:
+            prev_partial_row = [stack[row_num-1][j] for j in range(col_num, row_num)]
+        partial_row = [stack[row_num][j] for j in range(col_num, row_num+1)]
+        if sum(partial_row) > sum(prev_partial_row):
+            good_stacks.append(stack)
+    return good_stacks
+
+
 # at most one per row and column
 # uses one_one_per_col and one_one_per_row
 def one_one_per_row_and_col(stacks,n):
@@ -342,6 +383,54 @@ def has_num_ones_in_first_col(stacks, num_ones):
 
     return good_stacks
 
+def has_num_ones_in_last_diag(stacks, num_ones):
+    good_stacks = []
+    for stack in stacks:
+        count = 0
+        for x in stack:
+            count = count + x[len(x)-1]
+        if count == num_ones:
+            good_stacks.append(stack)
+
+    return good_stacks
+
+
+def has_num_ones_in_last_row(stacks, num_ones):
+    good_stacks = []
+    for stack in stacks:
+        count = sum(stack[len(stack)-1])
+        if count == num_ones:
+            good_stacks.append(stack)
+
+    return good_stacks
+
+
+def has_num_zero_below_one(stacks, num_ones, size):
+    good_stacks = []
+
+    for stack in stacks:
+        count = 0
+        for row_idx,row in enumerate(stack):
+            for col_idx, x in enumerate(row):
+                if (col_idx < row_idx):
+                    if x == 0 and stack[row_idx-1][col_idx] == 1:
+                        count = count + 1
+        if count == num_ones:
+            good_stacks.append(stack)
+
+    return good_stacks
+
+
+def last_row_len_stats(stacks, size):
+    stat_list = [0] * (size+1)
+    for stack in stacks:
+        row = stack[size-1]
+        if (1 in row):
+            idx =  len(row) - row[::-1].index(1)
+        else:
+            idx = 0
+        stat_list[idx] = stat_list[idx] +1
+    return stat_list
 
 
 ######
