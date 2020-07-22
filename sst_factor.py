@@ -6,8 +6,9 @@ def factor_one_zero_per_row(stack):
     zero_count_list = [sum(row) for row in stack]
 
     if sum(zero_count_list) == size * (size+1)/2:
-        # all ones stack
-        return [stack.copy()]
+        # all ones stack : we know how the factorization works from here
+        # so let's stop the recursion early.
+        return [row.copy() for row in stack]
     else:
         zero_index = []
         for row in stack:
@@ -21,7 +22,9 @@ def factor_one_zero_per_row(stack):
 
         for idx in range(len(stack)):
             if zero_index[idx] >= 0:
+                # zero out to the left of the rightmost zero
                 factor_stack[idx][zero_index[idx]] = 0
+                # turn the factored zero into a one for recursion
                 next_stack[idx][zero_index[idx]] = 1
 
         #print('stack', stack, 'factor stack', factor_stack, 'next stack', next_stack)
@@ -85,7 +88,7 @@ def factor_weakly_incr_row(square):
     else:
         factor_square = [[0,] * size  for k in range(size)]
         # reduce size of next square later
-        next_square = square.copy()
+        next_square = [row.copy() for row in square]
         for i in range(size):
             if 1 in square[i]:
                 j = square[i].index(1)
@@ -121,10 +124,13 @@ for stack in stacks:
     squares = [row_col_swap(stack)  for stack in stacks]
 
 for square in squares:
-    factor_list = factor_weakly_incr_row(square)
+    print('******Start*********')
+    print('triangle')
     print_triangle(square)
+    factor_list = factor_weakly_incr_row(square)
+    print('factor list')
     print_factor_list(factor_list)
-    print('***************')
+    print('******End*********')
     key = str(factor_list[0])
 
     if key in my_dict:
