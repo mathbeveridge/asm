@@ -1,5 +1,16 @@
 
 
+# these triangles have shape
+# xxx
+# xx
+# x
+#
+# and rules:
+# col decr by at most 1 (can increase too)
+# row weak decr
+# NE diag decr at most 1
+
+
 def get_row_list(size):
     if size ==  1:
         return [ [0,], [1,]]
@@ -15,6 +26,7 @@ def get_row_list(size):
 
 
 ##### be careful! you should really clone everything.
+
 def build_bt(size):
     if size == 1:
         return [ [[0,],], [[1,],]]
@@ -23,6 +35,8 @@ def build_bt(size):
         row_list =  get_row_list(size)
 
         bt_list = []
+
+        count = 0
 
         for prev in previous_list:
             prev_row = prev[0]
@@ -48,8 +62,12 @@ def build_bt(size):
                     bt = [ p.copy() for p in prev]
                     bt.insert(0,row)
                     bt_list.append(bt)
-    return bt_list
 
+                    count = count + 1
+
+                    if count % 1000 == 0:
+                        print('bt count', count)
+    return bt_list
 
 #bt_list = build_bt(3)
 #for bt in bt_list:
