@@ -34,6 +34,53 @@ def build_stacks(n):
                     new_stacks += [new_stack]
         return new_stacks
 
+# build binary triangles that do not contain:
+# 1
+# 10
+#
+def build_ooz(n):
+    if n == 1:
+        return [[[0]],[[1]]]
+    if n > 1:
+        old_stacks = build_ooz(n-1)
+        next_layer_candidates = build_binary_lists(n)
+        new_stacks = []
+        for old_stack in old_stacks:
+            last_layer = old_stack[len(old_stack)-1]
+            ones = [i for i, x in enumerate(last_layer) if x == 1]
+            for nl_candidate in next_layer_candidates:
+                is_good = True
+                for idx in ones:
+                    if nl_candidate[idx] == 1 and nl_candidate[idx+1] == 0:
+                        is_good = False
+                        break
+                # TRACKING TO SEE IF ZEROS MOVING UP 2 ROWS HAD BOTTLENECK?
+                # CODE ISN'T RIGHT AND ALL EXCLUDED WERE ACTUALLY GOOD
+                #check_two_rows_above = False
+                # if is_good:
+                #     for idx in range(2, len(nl_candidate)):
+                #         if nl_candidate[idx] == 1:
+                #             check_two_rows_above = True
+                #         if check_two_rows_above:
+                #             if nl_candidate[idx] == 0 and old_stack[len(old_stack)-2][idx-2] == 1:
+                #                 is_good = False
+                #                 print('fail')
+                #                 for row in old_stack:
+                #                     print(row)
+                #                 print(nl_candidate)
+                #                 print('-----')
+                #                 break
+                if is_good:
+                    new_stack = old_stack + [nl_candidate]
+                    new_stacks += [new_stack]
+        return new_stacks
+
+
+
+
+
+
+
 def build_inverted_stacks(n):
     stacks = build_stacks(n)
     inv_stacks = [ invert(s) for s in stacks]
@@ -250,4 +297,9 @@ def build_pst(n):
                 if check_pst_col(prev_layer, layer):
                     current_psts.append(pst + [ layer,])
         return current_psts
+
+
+
+
+
 

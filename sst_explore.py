@@ -871,7 +871,10 @@ def more_ones_in_row(stacks, nn):
 
 #explore_zeros_and_hooks(4)
 
-nn = 4
+nn = 3
 stacks = build.build_stacks(nn)
-stacks = stats.has_num_zero_below_one(stacks,2,nn )
+#stacks = stats.has_num_zero_below_one(stacks,2,nn )
+
+print_stack_list(stacks)
+
 print(len(stacks))

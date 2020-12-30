@@ -216,6 +216,8 @@ def reflect_list(triangle_list):
 
 
 
+
+
 #print(no_eq_diag_layer_list(3))
 #print(diag_layer_list(3))
 
@@ -233,10 +235,3 @@ def test():
     #for n in range(1,10):
     #    print(len(diag_layer_list(n)))
 
-
-for n in range(1,7):
-    gogs = build_gog_unimodal_diag(n)
-
-    #for x in gogs:
-    #    print(x)
-    print(len(gogs))

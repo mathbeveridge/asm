@@ -1,5 +1,7 @@
 import triangle.build_tss as build_tss
-import triangle.build_bt  as build_bt
+import triangle.build_ballot_triangle  as build_bt
+
+import stackset.build_stack_sets as build_stack_sets
 
 
 def print_triangle(triangle):
@@ -258,23 +260,20 @@ def fix_trans_row_towards_tss_v3(triangle, idx):
 
         while (cliff_idx > -1 and debug_counter < 30):
             debug_counter = debug_counter + 1
-            print_triangle(triangle)
+            #print_triangle(triangle)
 
             #print('cliff idx', cliff_idx, triangle[idx])
 
             relative_start_idx = cliff_idx - k
-
-            #print('cliff idx', cliff_idx, 'relative idx', relative_start_idx)
-
             shift_start_idx = shift_idx + relative_start_idx
-
             height = triangle[idx + k - shift_idx][shift_start_idx]
+            shift_end_idx = shift_start_idx
 
+            # print('cliff idx', cliff_idx, 'relative idx', relative_start_idx)
             #print('\t', idx, k, shift_idx, 'leads to row', idx+k-shift_idx)
-
             #print('start', shift_start_idx, 'height', height, 'shift_idx', shift_idx)
 
-            shift_end_idx = shift_start_idx
+
 
             #print('recorded height', triangle[idx + k - shift_idx][shift_end_idx], triangle[idx + k - shift_idx])
 
@@ -330,10 +329,10 @@ def fix_trans_row_towards_tss_v4(triangle, idx):
         ascent_idx = get_increase_idx(row)
 
 
-# A new approach.
-# Start at the largest row. Look for an ascent. Subtract the largest interval of 1's that you can. Repeat.
-# this makes progress to turn a transposed bt into a tss
-# This fails because entries get too large.
+# Another approach.
+# Start at the largest row. Look for an ascent. Move a 1 diagonally SW. Repeat.
+# This fails because (a) it repeats some at the intersection of BT and TSS, and
+# (b) it creates some cliffs.
 def fix_trans_row_towards_tss_v5(triangle, idx):
     print(triangle, idx)
     row = triangle[idx]
@@ -350,7 +349,7 @@ def fix_trans_row_towards_tss_v5(triangle, idx):
 
 
 
-n=4
+n=2
 
 tss_list = build_tss.build_tss(n)
 bt_list = build_bt.build_bt(n)
@@ -405,7 +404,7 @@ for bt in bt_only_list:
 
     # v1, v2, v3 go from smallest to largest
     # v1 is a bijection for n=3 and smaller
-    # v3 is a bijection for n=5 and smaller
+    # v3 is a bijection for n=4 and smaller
     for i in reversed(range(len(triangle))):
         #print('fixing row', i, 'for', triangle)
         fix_trans_row_towards_tss_v3(triangle, i)
@@ -459,7 +458,34 @@ for tss in tss_only_list:
 print('missed tss', miss_count )
 
 
-#for t in tss_list:
-#   print_triangle(t)
-#   print_triangle(build_tss.transpose(tss))
-#   print('##############')
+print('######## tss:', len(tss_list) )
+
+
+pst_list = build_stack_sets.build_pst(n)
+
+for pst in pst_list:
+    pst.reverse()
+
+count = 0
+
+for t in tss_list:
+    if build_tss.transpose(t) in pst_list:
+        count = count + 1
+        print_triangle(t)
+        #print_triangle(build_tss.transpose(t))
+        print('##############')
+
+print('count', count)
+
+
+print('!!!!!!!!!!!')
+count=0
+for bt in bt_list:
+    if build_bt.is_row_gog(bt):
+        count = count+1
+        print_triangle(bt)
+print(count)
+
+
+#for pst in pst_list:
+#    print(pst)
