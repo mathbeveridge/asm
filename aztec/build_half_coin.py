@@ -1,3 +1,5 @@
+# this creates permutation stack triangles as layers of permutations.
+
 def get_col_list(size):
     if size == 1:
         return [[k, ] for k in range(0,2)]
@@ -100,23 +102,56 @@ def triangle_to_column(pyr):
         out.append(temp)
     return(out)
 
-#rows: decrease by at most 1 (and can increase)
-# columns: weakly decrease
-# This is ALMOST Ballot Triangles!!! (Or is it actually ballot triangles?)
+# columns strictly decrease to 0 and that's it.
 def print_coin_ocean(ocean):
 
     print('*************')
     stack = ocean_to_stack(ocean)
     print_triangle(stack)
-    #print('><><><><><><><')
-    #for t in ocean:
-    #    print_triangle(t)
-    #print('**************')
+    print('><><><><><><><')
+    for t in ocean:
+        print_triangle(t)
+    print('**************')
 
 
 def ocean_to_stack(ocean):
     stack = [triangle_to_column(row) for row in ocean]
     return stack
+
+# columns are weakly decreasing
+# we add layers at the NW corner
+def ocean_to_stack2(ocean):
+    size = len(ocean)
+    triangle = [[ 0  for j in range(size - i)] for i in range(size) ]
+    for layer in ocean:
+        for i in range(len(layer)):
+            for j in range(len(layer[i])):
+                triangle[i][j]+=layer[i][j]
+
+    return triangle
+
+
+
+# columns are weakly increasing
+# we add layers at the SW corner
+#  so max triangle is
+# 1 1 1
+# 2 2
+# 3
+def ocean_to_stack3(ocean):
+    size = len(ocean)
+    triangle = [[ 0  for j in range(size - i)] for i in range(size) ]
+    for height,layer in enumerate(ocean):
+        for i in range(len(layer)):
+            for j in range(len(layer[i])):
+                triangle[height+i][j]+=layer[i][j]
+
+    return triangle
+
+
+
+
+
 
 
 
@@ -209,33 +244,61 @@ def push_ocean_south(ocean):
 #         print_coin_ocean(t)
 #     print(len(temp))
 
-for i in range(2, 3):
+for i in range(2, 2):
     temp = get_coin_oceans(i)
     #for t in temp:
     #    comp = get_complement(t)
     #    print_triangle(comp)
 
-    stack_set = set()
+    stack_set1 = set()
+    stack_set2 = set()
+    ss1_rows = set()
+    ss2_rows = set()
 
     for t in temp:
-        print_coin_ocean(t)
+        print('START<<<<<<<<<')
+        #print_coin_ocean(t)
         s = ocean_to_stack(t)
-        stack_set.add(str(s))
+        stack_set1.add(str(s))
+        ss1_rows.add(str(s[0]))
+        #s = ocean_to_stack3(t)
+        #stack_set2.add(str(s))
+        #ss2_rows.add(str(s[0]))
+
+        for row in t:
+            print_triangle(row)
+
+        print_triangle(s)
 
         #t2 = ocean_to_colsum_triangle(t)
 
         #print_triangle(t2)
         #print('push south')
         #s = push_ocean_south(t)
+        #print_triangle(ocean_to_stack2(s))
         #print_coin_ocean(s)
         #print('??????????????????')
 
 
     print(len(temp))
-    print(len(stack_set))
+    print(len(stack_set1))
+    print(len(stack_set2))
+
+    # print('ss2 but not ss1')
+    # for x in ss2_rows:
+    #     if x not in ss1_rows:
+    #         print(x)
+    #
+    for x in stack_set1:
+        if  x  in stack_set2:
+            print(x)
+
+    #print(len(ss1_rows))
+    #print(len(ss2_rows))
 
 
-#get_block_totals()
-
+    #get_block_totals()
 
     ### MY STACK METHOD IS BAD! NEED TO ADD ALONG COLUMNS NOT ROWS
+
+

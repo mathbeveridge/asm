@@ -65,7 +65,42 @@ def transpose_list(triangle_list):
     return [ transpose(triangle) for triangle in triangle_list]
 
 
-#tss_list = build_tss(3)
-#for tss in tss_list:
-#    print(tss)
-#print(len(tss_list))
+def get_block_totals():
+    for size in range(2,4):
+        stacks = build_tss(size)
+
+        totals = [[0 for j in range(len(stacks[0][i]))] for i in range(len(stacks[0]))]
+        #print('totals', totals)
+
+        for s in stacks:
+            #print(s)
+            for i in range(len(s)):
+                for j in range(len(s[i])):
+                    totals[i][j]+= s[i][j]
+
+
+        print('size=', size)
+        print('num triangles=', len(stacks))
+
+        #print(totals)
+        tot = 0
+        for row in totals:
+            tot+=sum(row)
+        print('total blocks=', tot)
+        for x in totals:
+            print(x)
+        print("----------")
+
+
+
+
+if __name__ == '__main__':
+    tss_list = build_tss(3)
+    for tss in tss_list:
+        for row in tss:
+            print(row)
+    print('--------')
+    #print(len(tss_list))
+
+
+    get_block_totals()

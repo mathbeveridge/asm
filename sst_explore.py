@@ -826,6 +826,21 @@ def more_ones_in_row(stacks, nn):
     for r in data:
         print(r)
 
+
+def get_paths(stack):
+    path_list = []
+    for idx,row in enumerate(reversed(stack)):
+        new_row = []
+        height = len(row)
+        for x in row:
+            if x == 1:
+                height-=1
+            new_row.append(height)
+        path_list.append(new_row)
+
+    return path_list
+
+
 #for idx,s in enumerate(good_stacks):
 #    print(idx+1)
 #    for x in s:
@@ -871,10 +886,16 @@ def more_ones_in_row(stacks, nn):
 
 #explore_zeros_and_hooks(4)
 
-nn = 3
+nn = 2
 stacks = build.build_stacks(nn)
 #stacks = stats.has_num_zero_below_one(stacks,2,nn )
 
-print_stack_list(stacks)
+
+paths_list = [get_paths(s) for s in stacks]
+
+print_stack_list(paths_list)
 
 print(len(stacks))
+
+
+print(stacks[0])

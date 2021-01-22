@@ -1,4 +1,7 @@
 
+# this code confirms that the permutation stack family (built from coin triangles)
+# is the same as the 2nd Schroder family that Ian found.
+
 col_dict = dict()
 col_dict[1] =[[k, ] for k in range(0, 2)]
 
