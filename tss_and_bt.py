@@ -72,7 +72,7 @@ def fix_trans_row_towards_tss_v1(triangle, idx):
     while k > -1:
         shift_idx = 0
 
-        # print_triangle(triangle)
+        # print_array(triangle)
 
         # j will increment downward from k to 0.
         # we move diagonally SW looking for the first row where we can shift the rest of the row
@@ -109,7 +109,7 @@ def fix_trans_row_towards_tss_v1(triangle, idx):
             triangle[idx][k + i] = temp_row_at_shift[i]
             triangle[idx + k - shift_idx][shift_idx + i] = temp_row_at_idx[i]
 
-        # print_triangle(triangle)
+        # print_array(triangle)
 
         # might need another adjustment so find the rightmost increase again
         k = get_increase_idx(triangle[idx])
@@ -209,7 +209,7 @@ def fix_trans_row_towards_tss_v3(triangle, idx):
     while k > -1:
         shift_idx = 0
 
-        # print_triangle(triangle)
+        # print_array(triangle)
 
         # j will increment downward from k to 0.
         # we move diagonally SW looking for the first row where we can shift the rest of the row
@@ -246,7 +246,7 @@ def fix_trans_row_towards_tss_v3(triangle, idx):
             triangle[idx][k + i] = temp_row_at_shift[i]
             triangle[idx + k - shift_idx][shift_idx + i] = temp_row_at_idx[i]
 
-        # print_triangle(triangle)
+        # print_array(triangle)
 
 
         # does the originial row decrease too quickly? if so, fix it.
@@ -260,7 +260,7 @@ def fix_trans_row_towards_tss_v3(triangle, idx):
 
         while (cliff_idx > -1 and debug_counter < 30):
             debug_counter = debug_counter + 1
-            #print_triangle(triangle)
+            #print_array(triangle)
 
             #print('cliff idx', cliff_idx, triangle[idx])
 
@@ -378,7 +378,7 @@ for bt in bt_list:
         print('tss count', count)
     if  not bt in tss_list:
         bt_only_list.append(bt)
-        #print_triangle(bt)
+        #print_array(bt)
 
 print('total=', len(bt_only_list))
 print('=============================')
@@ -422,7 +422,7 @@ for bt in bt_only_list:
 
 
 
-    #print_triangle(triangle)
+    #print_array(triangle)
     if not triangle in tss_only_list:
         print('transform failed!')
         if triangle in tss_list:
@@ -472,7 +472,7 @@ for t in tss_list:
     if build_tss.transpose(t) in pst_list:
         count = count + 1
         print_triangle(t)
-        #print_triangle(build_tss.transpose(t))
+        #print_array(build_tss.transpose(t))
         print('##############')
 
 print('count', count)

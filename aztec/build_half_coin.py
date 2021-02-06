@@ -248,7 +248,7 @@ for i in range(2, 2):
     temp = get_coin_oceans(i)
     #for t in temp:
     #    comp = get_complement(t)
-    #    print_triangle(comp)
+    #    print_array(comp)
 
     stack_set1 = set()
     stack_set2 = set()
@@ -272,10 +272,10 @@ for i in range(2, 2):
 
         #t2 = ocean_to_colsum_triangle(t)
 
-        #print_triangle(t2)
+        #print_array(t2)
         #print('push south')
         #s = push_ocean_south(t)
-        #print_triangle(ocean_to_stack2(s))
+        #print_array(ocean_to_stack2(s))
         #print_coin_ocean(s)
         #print('??????????????????')
 

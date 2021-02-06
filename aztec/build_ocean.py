@@ -56,7 +56,7 @@ def build_ocean(n):
 def to_binary_ocean(triangle):
     size = len(triangle)
 
-    #print_triangle(triangle)
+    #print_array(triangle)
 
     binary_triangle = [[0 for x in range(idx+1)] for idx in range(size)]
 
@@ -66,7 +66,7 @@ def to_binary_ocean(triangle):
             if val > 0:
                 binary_triangle[size-val][col_idx] = 1
 
-    #print_triangle(binary_triangle)
+    #print_array(binary_triangle)
 
     return binary_triangle
 
@@ -102,10 +102,10 @@ def print_triangle(triangle):
 #
 #     for ocean in ocean_list:
 #         to_binary_ocean(ocean)
-#         #print_triangle(ocean)
+#         #print_array(ocean)
 
 
-#print_triangle(to_binary_ocean([[3],[2,2],[1,1,1]]))
+#print_array(to_binary_ocean([[3],[2,2],[1,1,1]]))
 
 
 small_triangle_list = build_binary_ocean(1)
@@ -115,7 +115,7 @@ biggest_triangle_list = build_binary_ocean(4)
 
 
 #for t in bigger_triangle_list:
-#    print_triangle(t)
+#    print_array(t)
 
 
 print(len(small_triangle_list))

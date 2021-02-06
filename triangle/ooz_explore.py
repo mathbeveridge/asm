@@ -14,9 +14,9 @@ def fix_sst(sst):
 
 
     #print('>>> before')
-    #print_triangle(sst)
+    #print_array(sst)
     #print('>>> after')
-    #print_triangle(local_sst)
+    #print_array(local_sst)
 
     return local_sst
 

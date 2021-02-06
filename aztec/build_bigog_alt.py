@@ -39,10 +39,9 @@ def get_bigog(size):
     return bigog_dict[size]
 
 
-
 if __name__ == '__main__':
 
-    my_list = get_bigog(4)
+    my_list = get_bigog(3)
 
     for x in my_list:
         for col in x:
@@ -51,4 +50,4 @@ if __name__ == '__main__':
 
     print(len(my_list))
 
-    print(get_column(3))
+    #print(get_column(3))

@@ -1,4 +1,5 @@
-
+# this omega implementation has a combing method that
+# attempts to handle non-cliff paths (v-less from bigog) ????
 
 reversed_row_dict = dict()
 reversed_row_dict[1] =[[k, ] for k in range(0, 2)]
@@ -405,7 +406,7 @@ def to_tikz(tri_before, tri_after):
     size = len(tri_before)
     tex_list = ['\\begin{tikzpicture}']
     tex_list.append('\\begin{scope}[shift={(0,0)}]')
-#    tex_list.append('\\node at (' + str(-size) + ',' + str(size/2) +') {' + to_ytableau(tri_before) + '};')
+#    tex_list.append('\\node at (' + str(-size) + ',' + str(size/2) +') {' + to_tex_ytableau(tri_before) + '};')
     tex_list.append('\\node at (' + str(size/2) + ',' + str(3/2*size) +') {' + to_ytableau(tri_before) + '};')
 
     tex_list.append(to_tangle(tri_before))
@@ -466,7 +467,7 @@ if __name__ == '__main__':
 
     print('========================')
 
-    omega_list = [] #get_omega(4)
+    omega_list = get_omega(4)
 
     omega_str_map = dict()
 
@@ -501,7 +502,7 @@ if __name__ == '__main__':
         if is_magog(t):
             magog_count+=1
         #print(to_tangle(triangle))
-        #print(to_ytableau(triangle))
+        #print(to_tex_ytableau(triangle))
             #print(to_tikz(t, triangle))
             #print('')
 

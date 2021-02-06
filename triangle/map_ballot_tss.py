@@ -2,6 +2,10 @@ import triangle.build_ballot_triangle as bt
 import triangle.build_tss as tss
 
 
+
+# these families have the same block counts along the diagonals
+# so we'd love to find a bijection
+
 def get_diag_count(triangle):
     size = len(triangle)
     diag_count = []
@@ -280,12 +284,12 @@ print('>>>>>>>> tss only')
 for t in tss_list:
     if t not in bt_list:
         count+=1
-       # print_triangle(t)
+       # print_array(t)
 
 # print('>>>>>>>> bt only')
 # for t in bt_list:
 #     if t not in tss_list:
-#         print_triangle(t)
+#         print_array(t)
 
 #print(2**(n*(n+1)/2) - count)
 
@@ -322,9 +326,9 @@ for t in tss_list:
 # for t in tss_list:
 #     out = map_tss_to_bt(t)
 #     print('>>>>before')
-#     print_triangle(t)
+#     print_array(t)
 #     print('>>>>after')
-#     print_triangle(out)
+#     print_array(out)
 #
 #     if not out in bt_list:
 #         print('################## ERROR not in bt_list')

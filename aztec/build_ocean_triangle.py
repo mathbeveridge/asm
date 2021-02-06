@@ -90,7 +90,7 @@ def get_block_totals():
 triangle_list = get_ocean_triangle(3)
 
 #for t in triangle_list:
-#    print_triangle(t)
+#    print_array(t)
 
 #print(len(triangle_list))
 
