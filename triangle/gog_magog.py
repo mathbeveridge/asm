@@ -153,6 +153,30 @@ def build_kagog(n):
                     print('rejecting base', base, 'previous', previous, 'diff', diff)
         return retval
 
+def build_lagog(n):
+    if n == 1:
+        return []
+    elif n == 2:
+        return [[[0,],], [[1,],]]
+    else:
+        retval = []
+        base_list = kagog_base_list(n)
+        print(base_list)
+        previous_list = build_lagog(n-1)
+
+        for base in base_list:
+            for previous in previous_list:
+                #print(base, previous)
+                temp = [0,] + previous[0]
+                print('\t', base, temp)
+                diff = [b - t for (b,t) in zip(base, temp)]
+                print('\t\t', diff)
+                if not any(d < 0 for d in diff):
+                    newval = [base,] + previous
+                    retval = retval + [newval,]
+                else:
+                    print('rejecting base', base, 'previous', previous, 'diff', diff)
+        return retval
 
 
 

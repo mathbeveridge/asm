@@ -73,7 +73,6 @@ def build_bt(size):
                     #    print('bt count', count)
     return bt_list
 
-
 def get_boosted_triangle(triangle):
     boosted = []
     for  idx,row in enumerate(triangle):
@@ -773,6 +772,28 @@ def get_column_sums(triangle):
     return sums
 
 
+# 3 2 1
+# 2 1
+# 1
+def tip_west(triangle):
+    size =  len(triangle)
+    tip_triangle = util.get_all_zero_triangle(size)
+    tip_triangle = []
+
+    for row_idx in range(size):
+        tip_row = []
+        for col_idx in range(size - row_idx):
+            count = 0
+            for i in range(size - row_idx - col_idx):
+                if triangle[row_idx][i] > col_idx:
+                    count += 1
+            tip_row.append(count)
+        tip_triangle.append(tip_row)
+
+    return tip_triangle
+
+
+
 
 def test(size):
     combed_map = dict()
@@ -1022,3 +1043,35 @@ if __name__ == '__main__':
     logging.info('after')
     logging.info(out)
     logging.info(get_column_sums(out))
+
+
+
+    size = 3
+
+    bt_list = build_bt(size)
+
+    col_set = set()
+
+    for bt in bt_list:
+        util.print_array(bt)
+        tip_bt = tip_west(bt)
+        print('tipped')
+        util.print_array(tip_bt)
+        #col_set.add(str([tip_bt[i][0] for i in range(size)]))
+        print('=============')
+
+    for c in col_set:
+        print(c)
+
+    print(len(col_set))
+
+    util.print_block_totals(bt_list)
+
+
+    my_tri_lists = [ build_bt(2), build_bt(3), build_bt(4)]
+    my_totals = [ util.print_block_totals(x) for x in my_tri_lists]
+    print('block totals=',my_totals)
+
+
+
+

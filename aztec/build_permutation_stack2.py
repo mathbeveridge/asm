@@ -1,6 +1,8 @@
 
 import aztec.build_half_coin as bhc
 
+import triangle.array_util as util
+
 col_dict = dict()
 col_dict[1] =[[k, ] for k in range(0, 2)]
 
@@ -55,7 +57,7 @@ def flip(triangle):
     return new_triangle
 
 
-for size in  range(5,6):
+for size in  range(2,5):
     pst2_list = get_pst2(size)
     pst2_list = [flip(t) for t in pst2_list]
 
@@ -65,12 +67,13 @@ for size in  range(5,6):
     stack_name_list = [str(s) for s in stack_list]
 
 
-    print('missing in pst:')
-    for p in pst2_list:
-        if not str(p) in stack_name_list:
-            for row in p:
-                print(row)
-            print('---------')
+    #print('missing in pst:')
+    #for p in pst2_list:
+    #    util.print_array(p)
+        # if not str(p) in stack_name_list:
+        #     for row in p:
+        #         print(row)
+        #     print('---------')
 
     print(len(pst2_list))
     print(len(stack_list))
@@ -79,3 +82,5 @@ for size in  range(5,6):
     #      for row in p:
     #          print(row)
     #      print('---------')
+
+    util.print_block_totals(pst2_list)

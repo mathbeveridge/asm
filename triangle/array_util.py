@@ -12,6 +12,9 @@ import copy
 # Otherwise a change to the arrays in these lists will also affect the cached map
 
 
+def find_last(array, x):
+    return len(array) - array[::-1].index(x) - 1
+
 
 #####################
 #### making 2D arrays
@@ -41,12 +44,31 @@ def get_binary_arrays(size):
     return copy.deepcopy(bin_array_map[size])
 
 
-incr_bin_array_map = dict();
+incr_bin_array_map = dict()
 incr_bin_array_map[1] = [[k, ] for k in range(0, 2)]
 
 def get_increasing_binary_arrays(size):
     return [ [0]*k + [1]*(size-k) for k in reversed(range(size+1))]
 
+
+# check if array1 covers array2
+def does_cover(array1, array2):
+    diff = 0
+    for row1, row2 in zip(array1, array2):
+        for x1, x2 in zip(row1, row2):
+            if x1 < x2:
+                return False
+            elif x1 > x2:
+                diff += x1 - x2
+
+    if diff == 1:
+        return True
+    else:
+        return False
+
+
+def clone_array(array_2d):
+    return [[x for x in row] for row in array_2d]
 
 #####################################
 ####### manipulating 2d arrays
@@ -63,6 +85,19 @@ def get_column_sums(array_2d):
             sums[j] += row[j]
 
     return sums
+
+
+def get_diag_sums(triangle):
+    diags = []
+
+    for i in range(len(triangle)):
+        val = 0
+        for j in range(i + 1):
+            val += triangle[j][i - j]
+        diags.append(val)
+
+    return tuple(diags)
+
 
 def transpose_rect(rect_array):
     num_row = len(rect_array)
@@ -87,6 +122,10 @@ def anti_transpose_rect(rect_array):
 
     return new_array
 
+# flips rows an columns
+# x
+# xx
+# xxx
 def flip_triangle(triangle):
     #print(triangle)
     size = len(triangle)
@@ -99,10 +138,48 @@ def flip_triangle(triangle):
             flip[i][j] = triangle[size-1-j][size-1-i]
     return flip
 
+# flips rows and columns
+# xxx
+# xx
+# x
 def flip_triangle2(triangle):
     tri  = [row for row in reversed(triangle)]
     flip = flip_triangle(tri)
     return [row for row in reversed(flip)]
+
+# before     after
+# a          b a
+# b c        c
+def rotate_triangle(triangle):
+    size = len(triangle)
+    new_triangle = [ row for row in reversed(get_all_zero_triangle(size))]
+
+    for i in range(size):
+        for j in range(i+1):
+            new_triangle[j][size-1-i] = triangle[i][j]
+
+    return new_triangle
+
+
+
+#
+# xxx
+# xx
+# x
+def spin_triangle(triangle):
+    size = len(triangle)
+    spin_tri = [row for row in reversed(get_all_zero_triangle(size))]
+
+    for i in range(size):
+        print('-----')
+        for j in range(size - i):
+            print(i,j)
+            spin_tri[i][j] = sum([ 1 for k in range(j+1) if triangle[k][i] >= size-i-j])
+            for k in range(j+1):
+                print('\t', k, i, size-j, 'value', triangle[k][i], str(triangle[k][i] >= size-i-j))
+
+    return spin_tri
+
 
 
 def add_arrays(array1, array2):
@@ -111,6 +188,10 @@ def add_arrays(array1, array2):
         new_array.append([x+y for x,y in zip(row1,row2)])
 
     return new_array
+
+
+def get_absolute_array(array):
+    return [[abs(x) for x in row] for row in array]
 
 ############################
 ####### displaying 2D arrays
@@ -135,6 +216,9 @@ def to_tex_ytableau(array_2d):
     return ' '.join(tex_list)
 
 
+color_list = ['red', 'orange',  'green', 'blue', 'violet']
+
+
 # create tikz for an omega triangle
 def omega_to_tangle(triangle):
     size = len(triangle)
@@ -143,7 +227,7 @@ def omega_to_tangle(triangle):
     for row_idx in range(size):
         row = triangle[row_idx]
         row_size = len(row)
-        my_path =  ['\draw[thick] (-1, ' + str(row_size) + ') -- (0, ' \
+        my_path =  ['\draw[very thick, color=' + color_list[row_size-1] + '] (-1, ' + str(row_size) + ') -- (0, ' \
                   + str(abs(row[0])) + ')']
         for col_idx in range(1, row_size):
             height = row[col_idx]
@@ -200,3 +284,77 @@ def omega_list_to_tex_file(omega_list, file_name):
     lines.append('\\end{document}')
 
     out_file.writelines(["%s\n" % item for item in lines])
+
+
+def get_tex_header():
+    return  ['\\documentclass[12pt]{article}', '\\usepackage{amsmath}', '\\usepackage{ytableau}',
+             '\\usepackage{tikz}', '\\begin{document}']
+
+def get_tex_footer():
+    return  ['\\end{document}',]
+
+
+def get_mma_block_pyramid(triangle, max_triangle):
+    size = len(triangle)
+
+    lines = [ "Graphics3D[{Opacity[.3], Yellow,",
+              "\tPolygon[{{{{-1, -1, 0}}, {{{size}+1, -1, 0}}, {{{size}+1, {size}+1, 0}}, {{-1, {size}+1, 0}}}}],".format(size=size),
+              "\tGreen,"]
+
+    for row_idx in range(size):
+        row = triangle[row_idx]
+        max_row = max_triangle[row_idx]
+        for col_idx in range(len(row)):
+            for k in range(row[col_idx]):
+                lines.append("\tGreen, Cuboid[{{{x}, {y}, {z}}}, {{{x}+1, {y}+1, {z}+1}}],".format(x=row_idx,y=col_idx, z=k))
+
+            for k in range(row[col_idx], max_row[col_idx]):
+                lines.append("\tGray, Cuboid[{{{x}, {y}, {z}}}, {{{x}+1, {y}+1, {z}+1}}],".format(x=row_idx,y=col_idx, z=k))
+
+    lines.append('}]')
+
+    for x in lines:
+        print(x)
+
+    return lines
+
+
+#################
+# block statistics
+
+
+def print_block_totals(tri_list):
+
+    size = len(tri_list[0])
+
+    totals = [[0 for j in range(len(tri_list[0][i]))] for i in range(len(tri_list[0]))]
+    #print('totals', totals)
+
+    for s in tri_list:
+        #print(s)
+        for i in range(len(s)):
+            for j in range(len(s[i])):
+                totals[i][j]+= s[i][j]
+
+
+    print('size=', size)
+    print('num triangles=', len(tri_list))
+
+    #print(totals)
+    tot = 0
+    for row in totals:
+        tot+=sum(row)
+    print('total blocks=', tot)
+    for x in totals:
+        print(x)
+    print("----------")
+
+    return tot
+
+
+if __name__ == '__main__':
+    #print(get_mma_block_pyramid([[2, 1, 1], [1, 1], [0]], [[3,2,1],[2,1],[1]]))
+    t = [[4,2,0,1], [3,2,0], [1,1], [1]]
+
+    print_array(t)
+    print_array(spin_triangle(t))

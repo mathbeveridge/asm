@@ -1,6 +1,7 @@
-from stackset import build_stack_sets as build
+from stackset import build_stack_set as build
 from stackset import stack_set_stats as stats
 from stackset import hook as hook
+from triangle import array_util as util
 import math
 
 import itertools
@@ -509,18 +510,23 @@ def stack_list_to_tex(stacks):
 nn = 3
 stacks = build.build_stacks(nn)
 #stacks = build.build_inverted_stacks(nn)
-#stacks0 = stats.one_one_per_col_fixed(stacks,nn)
+#stacks0 = stats.one_one_per_col(stacks,nn)
 #stacks0 = stats.one_one_per_row(stacks, nn)
 #good_stacks = stats.one_one_per_diag(stacks,nn)
 #good_stacks = stats.one_one_per_row(stacks0,nn)
-#good_stacks = stats.cols_weak_decreasing(stacks,nn)
+good_stacks = stats.cols_weak_decreasing(stacks,nn)
 #good_stacks = stats.reflect_is_sst(stacks,nn)
 #good_stacks = stats.invert_is_sst(stacks, nn)
 #good_stacks = stats.has_num_zero_below_one(stacks, 1, nn)
 #good_stacks = stacks
 
 
-#print(len(good_stacks))
+for s in good_stacks:
+    util.print_array(s)
+
+print(len(good_stacks))
+
+print(good_stacks)
 
 
 
@@ -884,18 +890,28 @@ def get_paths(stack):
 
 #explore_zeros_and_ells(5) #5= 150, 13124
 
-#explore_zeros_and_hooks(4)
+# explore_zeros_and_hooks(4)
 
-nn = 2
-stacks = build.build_stacks(nn)
-#stacks = stats.has_num_zero_below_one(stacks,2,nn )
+print('==============')
 
+for nn in range(1,7):
+    stacks = build.build_stacks(nn)
+    # #stacks = stats.has_num_zero_below_one(stacks,2,nn )
+    #
+    # stacks = stats.rows_weak_increasing(stacks, nn)
+    #stacks = stats.cols_weak_decreasing(stacks, nn)
+    #stacks = stats.diag_weak_decreasing(stacks, nn)
+    #
+    # #paths_list = [get_paths(s) for s in stacks]
+    #
+    # #print_stack_list(paths_list)
+    #
 
-paths_list = [get_paths(s) for s in stacks]
+    stacks = stats.one_one_per_diag(stacks, nn, strict=True)
+    #stacks = stats.one_one_per_col(stacks, nn, strict=True)
+    #stacks = stats.one_one_per_row(stacks, nn, strict=True)
 
-print_stack_list(paths_list)
+    print(len(stacks))
 
-print(len(stacks))
-
-
-print(stacks[0])
+    #print_stack_list(stacks)
+    #print(stacks[0])

@@ -1,3 +1,4 @@
+import stackset.build_stack_set as bss
 import triangle.array_util as util
 import itertools
 
@@ -38,6 +39,17 @@ def get_binary_triangle(size):
 
     return triangle_dict[size]
 
+# multiply column j by j
+def get_binary_star_triangle(size):
+    bin_list = get_binary_triangle(size)
+
+    new_list = []
+
+    for triangle in bin_list:
+        new_triangle = [[ (j+1) * x for j,x in enumerate(row)] for row in triangle]
+        new_list.append(new_triangle)
+
+    return new_list
 
 def get_binary_triangle_with_subset_order(size):
     num_elements = int((size+1) * size /2)
@@ -101,9 +113,22 @@ def get_binary_triangle_with_alt_order(size):
     return tri_list
 
 
+# wrapper around stack set that reverses to match binary
+def get_stack_set(size):
+    sst_list = bss.build_stacks(size)
+
+    return [ [ row for row in reversed(t)] for t in sst_list]
 
 
 
+if __name__ == '__main__':
+
+    tri_list = get_stack_set(3)
+
+    for t in tri_list:
+        util.print_array(t)
+
+    print(len(tri_list))
 
 
 

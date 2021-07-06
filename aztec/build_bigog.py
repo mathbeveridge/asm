@@ -686,3 +686,26 @@ if __name__ == '__main__':
         if g not in k_list:
             util.print_array(g)
 
+
+    print('KAGOG TIME')
+    klist = get_kagog(3)
+
+    for k in klist:
+        #util.print_array(k)
+        krev = [ row for row in reversed(k)]
+        print(util.to_tex_ytableau(krev))
+
+
+    print('BIGOG TIME')
+    blist = get_bigog(3)
+
+    for b in blist:
+        #util.print_array(k)
+        #brev = [ row for row in reversed(b)]
+        util.print_array(b)
+
+    util.print_block_totals(blist)
+
+    my_tri_lists = [get_bigog(2), get_bigog(3), get_bigog(4)]
+    my_totals = [util.print_block_totals(x) for x in my_tri_lists]
+    print('block totals=', my_totals)

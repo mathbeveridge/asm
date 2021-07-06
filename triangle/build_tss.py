@@ -1,4 +1,4 @@
-
+import triangle.array_util as util
 
 # these triangles have shape
 # xxx
@@ -42,8 +42,8 @@ def build_tss(size):
                 tss_list.append(tss)
             count = count + 1
 
-            if count % 1000 == 0:
-                print('tss count', count)
+            #if count % 1000 == 0:
+            #    print('tss count', count)
 
     return tss_list
 
@@ -103,4 +103,8 @@ if __name__ == '__main__':
     #print(len(tss_list))
 
 
-    get_block_totals()
+    #get_block_totals()
+
+    my_tri_lists = [build_tss(2), build_tss(3), build_tss(4)]
+    my_totals = [util.print_block_totals(x) for x in my_tri_lists]
+    print('block totals=', my_totals)

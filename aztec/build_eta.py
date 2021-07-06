@@ -1,4 +1,4 @@
-
+import triangle.array_util as util
 
 row_dict = dict()
 row_dict[1] =[[k, ] for k in range(0, 2)]
@@ -109,3 +109,6 @@ if __name__ == '__main__':
     print(len(my_list))
 
 
+    my_tri_lists = [get_eta(2), get_eta(3), get_eta(4)]
+    my_totals = [util.print_block_totals(x) for x in my_tri_lists]
+    print('block totals=', my_totals)

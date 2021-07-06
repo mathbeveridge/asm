@@ -200,6 +200,12 @@ def get_omega(B,D):
 def get_omega_for_cliff(B):
     return get_omega(B, get_down_for_cliff(B))
 
+# The right choice is 1=flat and 0=down
+def get_std_omega_for_cliff(B):
+    newB = [ [1 -x for x in row ] for row in B]
+    util.print_array(newB)
+    return get_omega(newB, get_down_for_cliff(newB))
+
 
 def is_magog(omega_cliff):
     triangle = omega_cliff
@@ -273,7 +279,7 @@ def is_binary_vless(binary):
 
     return True
 
-
+# omega triangle
 def to_tangle(triangle):
     size = len(triangle)
     path_list = []
@@ -304,7 +310,7 @@ def to_tangle(triangle):
     return('\n'.join(path_list))
 
 
-
+# reflected through y=x
 def to_tangle2(triangle):
     size = len(triangle)
     path_list = []

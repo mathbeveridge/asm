@@ -1,4 +1,4 @@
-from stackset import build_stack_sets as build
+from stackset import build_stack_set as build
 
 def cols_weak_decreasing(stacks, n):
     #stacks = build.build_stacks(n)
@@ -127,7 +127,7 @@ def rows_weak_increasing(stacks,n):
 
 
 # at most one per column
-def one_one_per_col(stacks,n):
+def one_one_per_col(stacks,n, strict=False):
     print("starting");
     #stacks = build.build_stacks(n)
     #print("built stacks for", n, len(stacks));
@@ -141,7 +141,7 @@ def one_one_per_col(stacks,n):
                 if stack[j][i] == 1:
                         num_ones += 1
             #### CHANGE BACK!
-            if num_ones > 1:
+            if num_ones > 1 or (strict and num_ones ==0):
             #if not num_ones == 1:
                 if stack in good_stacks:
                     good_stacks.remove(stack)
@@ -169,14 +169,14 @@ def max_ones_per_col(stacks,  n,k):
 
 
 # at most one per row
-def one_one_per_row(stacks,n):
+def one_one_per_row(stacks,n, strict=False):
     good_stacks = stacks.copy()
     for index,stack in enumerate(stacks):
         if index % 1000 == 0:
         	print('row processing stack', index)
         for x in stack:
             ##### CHANGE BACK
-            if sum(x) > 1:
+            if sum(x) > 1 or (strict and sum(x)==0):
             #if not sum(x) == 1:
                 good_stacks.remove(stack)
                 break
@@ -240,7 +240,7 @@ def one_one_per_row_and_col(stacks,n):
 
 # at most one per diagonal
 # transforms the stack and uses one_one_per_col
-def one_one_per_diag(stacks, n):
+def one_one_per_diag(stacks, n, strict=False):
     flip_stacks = []
 
     # turn diagonals into columns
@@ -250,7 +250,7 @@ def one_one_per_diag(stacks, n):
             temp.append([x for x in reversed(s)])
         flip_stacks.append(temp)
 
-    stack_list = one_one_per_col(flip_stacks,n)
+    stack_list = one_one_per_col(flip_stacks, n, strict)
 
     # turn columns back into diagonals
     ret_val = []

@@ -1,3 +1,6 @@
+import triangle.array_util as util
+
+# NOTE: This code has ROWS that strictly decrease to 0 (instead of columns)
 
 # this code confirms that the permutation stack family (built from coin triangles)
 # is the same as the 2nd Schroder family that Ian found.
@@ -40,14 +43,14 @@ def get_permutation_stacks(size):
 
 
 def get_block_totals():
-    for size in range(2,6):
+    for size in range(3,4):
         stacks = get_permutation_stacks(size)
 
         totals = [[0 for j in range(len(stacks[0][i]))] for i in range(len(stacks[0]))]
         #print('totals', totals)
 
         for s in stacks:
-            #print(s)
+            util.print_array(s)
             for i in range(len(s)):
                 for j in range(len(s[i])):
                     totals[i][j]+= s[i][j]
@@ -77,4 +80,6 @@ cols = get_permutation_stacks(2)
 
 get_block_totals()
 
-
+my_tri_lists = [get_permutation_stacks(2), get_permutation_stacks(3), get_permutation_stacks(4)]
+my_totals = [util.print_block_totals(x) for x in my_tri_lists]
+print('block totals=', my_totals)

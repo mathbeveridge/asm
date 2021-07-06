@@ -65,16 +65,16 @@ def matrix_to_first_half(matrix):
 ssyt_map = dict()
 
 
-def flip_matrix(matrix_in):
+def flip_matrix_to_omega(matrix_in):
     num_rows = len(matrix_in)
     num_cols = num_rows -1
     path_matrix_list = get_path_matrix_list(matrix_in)
 
 
-    for m in path_matrix_list:
-        util.print_array(m)
-        util.print_array(util.anti_transpose_rect(m))
-        print('************')
+    # for m in path_matrix_list:
+    #     util.print_array(m)
+    #     util.print_array(util.anti_transpose_rect(m))
+    #     print('************')
 
 
     trans_list = [util.anti_transpose_rect(m) for m in path_matrix_list]
@@ -82,7 +82,7 @@ def flip_matrix(matrix_in):
     # remove the unnecessary vertical 1's
     for path_idx, matrix in enumerate(trans_list):
 
-        print('path', path_idx, matrix)
+        #print('path', path_idx, matrix)
 
         for j in range(num_rows - path_idx):
             idx = find_first_one_in_col(matrix, j)
@@ -93,10 +93,10 @@ def flip_matrix(matrix_in):
         for row in matrix:
             row.pop(0)
 
-    sum_mat = [[0 for x in range(num_cols)] for y in range(num_rows)]
+    #sum_mat = [[0 for x in range(num_cols)] for y in range(num_rows)]
 
-    for matrix in trans_list:
-        sum_mat = util.add_arrays(sum_mat, matrix)
+    #for matrix in trans_list:
+    #    sum_mat = util.add_arrays(sum_mat, matrix)
 
     omega = []
     for idx,matrix in enumerate(trans_list):
@@ -154,7 +154,7 @@ def get_path_matrix_list(matrix_in):
                 path_matrix[j] = [0, ] + path_matrix[j]
 
 
-        util.print_array(path_matrix)
+        #util.print_array(path_matrix)
 
         # now fill in the 1's in the appropriate columns
         for j in range(num_cols+1  - i):
@@ -179,7 +179,7 @@ def get_path_matrix_list(matrix_in):
 
 
 def find_first_one_in_col(matrix, idx):
-    print(matrix, idx)
+    #print(matrix, idx)
     num_rows = len(matrix)
     for k in range(num_rows):
         if matrix[k][idx] == 1:
@@ -320,106 +320,111 @@ def matrix_to_tex(matrix):
 
 
 
-bin_tri_list = [
-    [[0], [0, 0], [0, 0, 0]],
-    [[0], [0, 0], [0, 0, 1]],
-    [[0], [0, 0], [0, 1, 0]],
-
-    [[0], [0, 0], [0, 1, 1]],
-    [[0], [0, 1], [0, 0, 0]],
-    [[0], [0, 1], [0, 0, 1]],
-    [[0], [0, 1], [0, 1, 0]],
-    [[0], [0, 1], [0, 1, 1]],
 
 
-    [[0], [0, 0], [1, 0, 0]],
-    [[0], [1, 0], [0, 0, 0]],
-    [[1], [0, 0], [0, 0, 0]],
+def get_bin3_tri_reordered():
+    bin_tri_list = [
+        [[0], [0, 0], [0, 0, 0]],
+        [[0], [0, 0], [0, 0, 1]],
+        [[0], [0, 0], [0, 1, 0]],
+        [[0], [0, 0], [0, 1, 1]],
+        [[0], [0, 1], [0, 0, 0]],
 
-    [[0], [0, 0], [1, 0, 1]],
-    [[0], [1, 0], [0, 0, 1]],
-    [[1], [0, 0], [0, 0, 1]],
+        [[0], [0, 1], [0, 0, 1]],
+        [[0], [0, 1], [0, 1, 0]],
+        [[0], [0, 1], [0, 1, 1]],
+        [[0], [0, 0], [1, 0, 0]],
+        [[0], [1, 0], [0, 0, 0]],
 
-    [[0], [0, 0], [1, 1, 0]],
-    [[0], [1, 0], [0, 1, 0]],
-    [[1], [0, 0], [0, 1, 0]],
+        [[1], [0, 0], [0, 0, 0]],
+        [[0], [0, 0], [1, 0, 1]],
+        [[0], [1, 0], [0, 0, 1]],
+        [[1], [0, 0], [0, 0, 1]],
+        [[0], [0, 0], [1, 1, 0]],
 
-    [[0], [0, 1], [1, 0, 0]],
-    [[0], [1, 1], [0, 0, 0]],
-    [[1], [0, 1], [0, 0, 0]],
+        [[0], [1, 0], [0, 1, 0]],
+        [[1], [0, 0], [0, 1, 0]],
+        [[0], [0, 1], [1, 0, 0]],
+        [[0], [1, 1], [0, 0, 0]],
+        [[1], [0, 1], [0, 0, 0]],
 
-    [[0], [0, 0], [1, 1, 1]],
-    [[0], [1, 0], [0, 1, 1]],
-    [[1], [0, 0], [0, 1, 1]],
+        [[0], [0, 0], [1, 1, 1]],
+        [[0], [1, 0], [0, 1, 1]],
+        [[1], [0, 0], [0, 1, 1]],
+        [[0], [0, 1], [1, 1, 0]],
+        [[0], [1, 1], [0, 1, 0]],
 
-    [[0], [0, 1], [1, 1, 0]],
-    [[0], [1, 1], [0, 1, 0]],
-    [[1], [0, 1], [0, 1, 0]],
+        [[1], [0, 1], [0, 1, 0]],
+        [[0], [0, 1], [1, 0, 1]],
+        [[0], [1, 1], [0, 0, 1]],
+        [[1], [0, 1], [0, 0, 1]],
+        [[0], [0, 1], [1, 1, 1]],
 
-    [[0], [0, 1], [1, 0, 1]],
-    [[0], [1, 1], [0, 0, 1]],
-    [[1], [0, 1], [0, 0, 1]],
+        [[0], [1, 1], [0, 1, 1]],
+        [[1], [0, 1], [0, 1, 1]],
+        [[0], [1, 0], [1, 0, 0]],
+        [[1], [0, 0], [1, 0, 0]],
+        [[1], [1, 0], [0, 0, 0]],
 
-    [[0], [0, 1], [1, 1, 1]],
-    [[0], [1, 1], [0, 1, 1]],
-    [[1], [0, 1], [0, 1, 1]],
+        [[0], [1, 0], [1, 0, 1]],
+        [[1], [0, 0], [1, 0, 1]],
+        [[1], [1, 0], [0, 0, 1]],
+        [[0], [1, 0], [1, 1, 0]],
+        [[1], [0, 0], [1, 1, 0]],
 
-    [[0], [1, 0], [1, 0, 0]],
-    [[1], [0, 0], [1, 0, 0]],
-    [[1], [1, 0], [0, 0, 0]],
+        [[1], [1, 0], [0, 1, 0]],
+        [[0], [1, 1], [1, 0, 0]],
+        [[1], [0, 1], [1, 0, 0]],
+        [[1], [1, 1], [0, 0, 0]],
+        [[0], [1, 0], [1, 1, 1]],
 
-    [[0], [1, 0], [1, 0, 1]],
-    [[1], [0, 0], [1, 0, 1]],
-    [[1], [1, 0], [0, 0, 1]],
+        [[1], [0, 0], [1, 1, 1]],
+        [[1], [1, 0], [0, 1, 1]],
+        [[0], [1, 1], [1, 0, 1]],
+        [[1], [0, 1], [1, 0, 1]],
+        [[1], [1, 1], [0, 0, 1]],
 
-    [[0], [1, 0], [1, 1, 0]],
-    [[1], [0, 0], [1, 1, 0]],
-    [[1], [1, 0], [0, 1, 0]],
+        [[0], [1, 1], [1, 1, 0]],
+        [[1], [0, 1], [1, 1, 0]],
+        [[1], [1, 1], [0, 1, 0]],
+        [[0], [1, 1], [1, 1, 1]],
+        [[1], [0, 1], [1, 1, 1]],
 
-    [[0], [1, 1], [1, 0, 0]],
-    [[1], [0, 1], [1, 0, 0]],
-    [[1], [1, 1], [0, 0, 0]],
+        [[1], [1, 1], [0, 1, 1]],
+        [[1], [1, 0], [1, 0, 0]],
+        [[1], [1, 0], [1, 0, 1]],
+        [[1], [1, 0], [1, 1, 0]],
+        [[1], [1, 1], [1, 0, 0]],
 
-    [[0], [1, 0], [1, 1, 1]],
-    [[1], [0, 0], [1, 1, 1]],
-    [[1], [1, 0], [0, 1, 1]],
-
-    [[0], [1, 1], [1, 0, 1]],
-    [[1], [0, 1], [1, 0, 1]],
-    [[1], [1, 1], [0, 0, 1]],
-
-    [[0], [1, 1], [1, 1, 0]],
-    [[1], [0, 1], [1, 1, 0]],
-    [[1], [1, 1], [0, 1, 0]],
-
-    [[0], [1, 1], [1, 1, 1]],
-    [[1], [0, 1], [1, 1, 1]],
-    [[1], [1, 1], [0, 1, 1]],
-
-    [[1], [1, 0], [1, 0, 0]],
-    [[1], [1, 0], [1, 0, 1]],
-    [[1], [1, 0], [1, 1, 0]],
-    [[1], [1, 1], [1, 0, 0]],
-    [[1], [1, 0], [1, 1, 1]],
-    [[1], [1, 1], [1, 0, 1]],
-    [[1], [1, 1], [1, 1, 0]],
-    [[1], [1, 1], [1, 1, 1]]
-    ]
-
-
-order_list = [ 0, 1, 2, 8, 4, 5, 6, 17, 9, 12, 15,
-               32, 3, 7, 26, 11, 21, 35, 23, 38, 10,
-               13, 16, 33, 19, 28, 25, 42, 34, 37, 40,
-               56, 22, 31, 48, 36, 46, 57, 51, 58, 18,
-               27, 24, 41, 43, 49, 52, 59, 14, 30, 47,
-               39, 55, 61, 50, 62, 20, 29, 44, 45, 54,
-               60, 53, 63 ]
-
-print(len(set(order_list)))
+        [[1], [1, 0], [1, 1, 1]],
+        [[1], [1, 1], [1, 0, 1]],
+        [[1], [1, 1], [1, 1, 0]],
+        [[1], [1, 1], [1, 1, 1]]
+        ]
 
 
-bin_tri_reordered = [bin_tri_list[k] for k in order_list]
+    order_list = [ 0, 1, 2, 8, 4, 5, 6, 17, 9, 12, 15,
+                   32, 3, 7, 26, 11, 21, 35, 14, 38, 10,
+                   13, 16, 33, 19, 28, 25, 42, 34, 37, 40,
+                   56, 22, 31, 48, 36, 46, 57, 39, 58, 18,
+                   27, 24, 41, 43, 49, 52, 59, 23, 30, 47,
+                   51, 55, 61, 50, 62, 20, 29, 44, 45, 54,
+                   60, 53, 63 ]
 
+    # 18: 23
+    # 48: 14
+
+    # 38: 51
+    # 51: 39
+
+
+    #print(len(set(order_list)))
+
+
+    return [bin_tri_list[k] for k in order_list]
+
+
+bin_tri_reordered = get_bin3_tri_reordered()
 
 def write_ssyt_matrix(size):
     file_name = '/Users/abeverid/PycharmProjects/asm/data/ssyt' + str(size) + '.txt'
@@ -485,7 +490,7 @@ def compare_to_binary(size):
 
         t_invert = [ [ 1 -x for x in row ] for row in reversed(t)]
 
-        print(t, t_invert)
+        #print(t, t_invert)
 
 
         lines.append('\\begin{tikzpicture}[scale=.5]')
@@ -600,30 +605,62 @@ def test():
 
 def test_flip_matrix():
 
-    mat_list = get_ssyt_matrix(3)
+    mat_list = get_ssyt_matrix(4)
 
-    out_list = [flip_matrix(matrix) for matrix in  mat_list]
+    out_list = [flip_matrix_to_omega(matrix) for matrix in  mat_list]
 
 
 
     for idx in range(len(mat_list)):
 
 
-        print('the input is')
-        util.print_array(mat_list[idx])
+        #print('the input is')
+        #util.print_array(mat_list[idx])
 
 
-        print('the output is')
+        #print('the output is')
 
         util.print_array(out_list[idx])
 
 
+def absolute_triangle(triangle):
+    return [ [abs(x) for x in row] for row in triangle]
+
+def write_bin_and_flipped_ssyt():
+    ssyt_list = get_ssyt_matrix(4)
+
+    ssyt_omega_list = [ absolute_triangle(flip_matrix_to_omega(m)) for m in ssyt_list ]
+
+    bin_omega_list = [ absolute_triangle(binary_comb.get_omega_for_cliff(b)) for b in bin_tri_reordered ]
 
 
 
-test_flip_matrix()
+    count = 0
+    diff_count = 0
+    for s,b in zip(ssyt_omega_list, bin_omega_list):
+        if not s == b:
+            print('>>>>>>>>>>> count=', count)
+            print('binary')
+            util.print_array(b)
+            print('flipped ssyt')
+            util.print_array(s)
+            diff_count+=1
+        count+=1
+
+
+
+    print('diff count ', diff_count)
+
+
+
+
+#test_flip_matrix()
 
 #compare_to_binary(4)
 
 
 #write_ssyt_matrix(5)
+
+#write_bin_and_flipped_ssyt()
+
+
